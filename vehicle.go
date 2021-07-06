@@ -1,5 +1,13 @@
 package main
 
+import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"os"
+	"strings"
+)
+
 type vehicle interface{}
 
 type car struct {
@@ -63,11 +71,10 @@ func init() {
 func main() {
 
 	// Generate ratings for the different vehicles
-
+	generateRating()
 	// Print ratings for the different vehicles
 }
 
-/*
 func readJSONFile() Values {
 	jsonFile, err := os.Open("feedback.json")
 
@@ -83,4 +90,44 @@ func readJSONFile() Values {
 
 	return content
 }
-*/
+
+func generateRating() {
+	f := readJSONFile()
+
+	for v := range f.Models {
+		var vehResult vehicle
+		var vehRating rating
+
+		for msg := range v.Feedback {
+			if text := strings.Split(msg, " "); len(text) >= 5 {
+				vehRating = 5.0
+				vehResult.feedbackTotal++
+
+				for word := range text {
+					switch s := strings.Trim(strings.ToLower(word), " ,.,!,?,\t,\n,\r"); s {
+					case "pleasure", "impressed", "wonderful", "fantastic", "splendid":
+						vehRating += extraPositive
+					case "help", "helpful", "thanks", "thank you", "happy":
+						vehRating += positive
+					case "not helpful", "sad", "angry", "improve", "annoy":
+						vehRating += negative
+					case "pathetic", "bad", "worse", "unfortunately", "agitated", "frustrated":
+						vehRating += extraNegative
+					}
+				}
+
+				switch vehRating {
+				case vehRating > 8.0:
+					vehResult.feedbackPositive++
+				case vehRating >= 4.0 && vehRating <= 8.0:
+					vehResult.feedbackNeutral++
+				case vehRating < 4.0:
+					vehResult.feedbackNegative++
+				}
+
+			}
+		}
+
+		vehResult = vehicleResult[v.Name]
+	}
+}
