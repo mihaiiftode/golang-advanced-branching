@@ -146,7 +146,7 @@ func generateRating() {
 	}
 }
 
-func showrating(model string) {
+func showRating(model string) {
 	ratingFound := false
 
 	for m, r := range vehicleResult {
@@ -164,16 +164,16 @@ func showrating(model string) {
 func (c *car) carDetails() {
 	fmt.Printf("\n%-5v: %-8v: %-12v ", "Car", c.make, c.model)
 
-	showrating(c.model)
+	showRating(c.model)
 }
 func (b *bike) bikeDetails() {
 	fmt.Printf("\n%-5v: %-8v: %-12v ", "Bike", b.make, b.model)
 
-	showrating(b.model)
+	showRating(b.model)
 }
 
 func (t *truck) truckDetails() {
 	fmt.Printf("\n%-5v: %-8v: %-12v ", "Truck", t.make, t.model)
 
-	showrating(t.model)
+	showRating(t.model)
 }
