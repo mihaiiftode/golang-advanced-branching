@@ -3,13 +3,13 @@ package main
 type vehicle interface{}
 
 type car struct {
-	mode, make, typeVehicle string
+	model, make, typeVehicle string
 }
 type truck struct {
-	mode, make, typeVehicle string
+	model, make, typeVehicle string
 }
 type bike struct {
-	mode, makef string
+	model, makef string
 }
 
 // Values array for the feedback.json file
